@@ -3,7 +3,7 @@ from src.features.process_text.normalize import expand_contractions, convert_cas
     remove_end_characters, remove_stopwords, correct_spelling, remove_hyperlinks, replace_apostrophes, \
     replace_whitespaces, replace_multiple_stopwords, remove_numbers, expand_abbreviations
 from src.features.process_text.tokenization_nltk import sentence_tokenize, word_tokenize
-from src.features.process_text.stemming_nltk import convert_word_stem, lemmatize_text
+from src.features.process_text.lemmatize_nltk import convert_word_stem, lemmatize_text
 from src.features.process_text.clean import clean_text
 
 class TestProcessTest(unittest.TestCase):

@@ -1,11 +1,11 @@
-from nltk import sent_tokenize, word_tokenize
+from nltk import sent_tokenize, word_tokenize, pos_tag, pos_tag_sents
 from nltk.tokenize import PunktSentenceTokenizer, RegexpTokenizer, TreebankWordTokenizer, WordPunctTokenizer, \
     WhitespaceTokenizer
+from nltk.tokenize.moses import MosesDetokenizer
+
 from src.features.process_text.patterns import get_sentence_token_pattern, get_word_token_pattern
 
-
 _sentence_tokenizer_default = sent_tokenize
-
 _sentence_tokenizer_punkt = PunktSentenceTokenizer.tokenize
 
 _sentence_tokenizer_regex = RegexpTokenizer(pattern=get_sentence_token_pattern(), gaps=True).tokenize
@@ -67,8 +67,30 @@ def word_tokenize(text, word_tokenizer_id='default'):
     tokens = [token.strip() for token in tokens]
     return tokens
 
+
 def is_tokenized(text):
     return type(text) == list
 
+
 def merge_tokens(tokens):
     return ' '.join(tokens)
+
+
+def filter_word_by_pos(text, tag, word_tokenizer_id='default', tokenize=True):
+    # If text is empty, return None.
+    if not text: return None
+    word_tokenizer = _WORD_TOKENIZER_DICT.get(word_tokenizer_id)
+    tokens = word_tokenizer(text)
+    tagged = pos_tag(tokens, tagset='universal')
+    filtered = [item[0] for item in tagged if item[1] == tag]
+    if not tokenize:
+        filtered = ' '.join(filtered)
+    return filtered
+
+
+def convert_tokens_to_string_of_words(list_of_strings):
+    converted_text = ""
+    detokenizer = MosesDetokenizer()
+    for text in list_of_strings:
+        converted_text += detokenizer.detokenize(text, return_str=True) + ' '
+    return converted_text

@@ -1,6 +1,6 @@
-from src.features.process_text.patterns import get_contraction_dict, get_special_characters_pattern,\
-    get_end_characters_pattern, get_hyperlink_pattern, get_apostrophe_pattern, get_whitespace_pattern, get_number_pattern, \
-    get_abbreviation_dict
+from src.features.process_text.patterns import get_contraction_dict, get_special_characters_pattern, \
+    get_end_characters_pattern, get_hyperlink_pattern, get_apostrophe_pattern, get_whitespace_pattern, \
+    get_number_pattern, get_abbreviation_dict, get_no_space_after_dot_dict
 from src.features.process_text.correct_spelling import correct_word
 from src.features.process_text.tokenization_nltk import is_tokenized, merge_tokens, word_tokenize
 from re import IGNORECASE, DOTALL, sub, compile
@@ -26,7 +26,8 @@ def expand_abbreviations(text):
     except IndexError:
         print(1)
     # Creates abbreviations pattern.
-    abbreviations_pattern = compile('({})'.format(r'\.?\s|'.join(get_abbreviation_dict().keys())), flags=IGNORECASE | DOTALL)
+    abbreviations_pattern = compile('({})'.format(r'\.?\s|'.join(get_abbreviation_dict().keys())),
+                                    flags=IGNORECASE | DOTALL)
 
     def expand_match(abbreviation):
         """Expands matched contraction."""
@@ -92,14 +93,12 @@ def remove_numbers(text):
 
 def _get_single_match(match):
     """Returns single match of multiple match."""
-
     word = match.group()
     return word[0]
 
 
 def replace_multiple_stopwords(text):
     """Replaces multiple stopwords with single stopwords."""
-
     # If text is empty, return None.
     if not text: return None
     # If texts is tokenized, merge tokens.
@@ -120,9 +119,15 @@ def replace_multiple_stopwords(text):
     return normalized_text
 
 
+def correct_pontuation(text):
+    # Add space to dots.
+    if not text: return None
+    normalized_text = sub(get_no_space_after_dot_dict(), ' ', text)
+    return normalized_text
+
+
 def replace_whitespaces(text):
     """Replaces all whitespaces with one space."""
-
     # If text is empty, return None.
     if not text: return None
     # If texts is tokenized, merge tokens.
@@ -145,7 +150,6 @@ def replace_whitespaces(text):
 
 def replace_apostrophes(text):
     """Replaces apostrophe pattern with '."""
-
     # If text is empty, return None.
     if not text: return None
     # If texts is tokenized, merge tokens.

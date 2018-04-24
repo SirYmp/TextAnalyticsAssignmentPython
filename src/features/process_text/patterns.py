@@ -2,16 +2,10 @@ from re import compile
 
 
 _ABBREVIATION_DICT = {
-    'u.s': 'united states',
-    't.v': 'television',
-    'u.s.a': 'united states of america',
-    'a.g': 'attorney general',
-    'dr': 'doctor',
-    'sen': 'senator',
-    'v.p': 'vice president',
-    'rep': 'republican',
-    'u.k': 'united kingdom',
-    'gen': 'general'
+    'Rcmd': 'recommend',
+    'Rec': 'recommend',
+    'Recm': 'recommend',
+    'ya': 'you,'
 }
 
 _CONTRACTION_DICT = {
@@ -158,11 +152,17 @@ _WHITESPACE_PATTERN = r'\s+'
 
 _NUMBER_PATTERN = r'[^\s]*\d+[^\s]*'
 
+_NO_SPACE_AFTER_DOT = r'(?<=[.])'
+
 
 def get_abbreviation_dict():
     """Returns abbreviation dict."""
 
     return _ABBREVIATION_DICT
+
+
+def get_no_space_after_dot_dict():
+    return _NO_SPACE_AFTER_DOT
 
 
 def get_number_pattern():

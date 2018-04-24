@@ -1,13 +1,14 @@
-from src.features.process_text.tokenization_nltk import sentence_tokenize, word_tokenize
+from src.features.process_text.tokenization_nltk import sentence_tokenize, word_tokenize, \
+    convert_tokens_to_string_of_words
 from src.features.process_text.normalize import expand_contractions, remove_special_characters,\
     remove_stopwords, remove_end_characters, convert_case, remove_hyperlinks, replace_whitespaces, \
-    replace_apostrophes, replace_multiple_stopwords, remove_numbers, expand_abbreviations
-from src.features.process_text.stemming_nltk import lemmatize_text
+    replace_apostrophes, replace_multiple_stopwords, remove_numbers, expand_abbreviations, correct_pontuation
+from src.features.process_text.lemmatize_nltk import lemmatize_text
 
 
 def clean_text(text, wordtokenize=False):
     clean_dict = {}
-    # Replace whitespaces.
+    # Replace multiple whitespaces.
     clean_dict['replace_whitespaces'] = replace_whitespaces(text)
     # Replace multiple stopwords.
     clean_dict['replace_multiple_stopwords'] = replace_multiple_stopwords(clean_dict['replace_whitespaces'])
@@ -26,7 +27,9 @@ def clean_text(text, wordtokenize=False):
     # Expand abbreviations.
     clean_dict['expand_abbreviations'] = expand_abbreviations(clean_dict['convert_case'])
     # Tokenize sentences.
-    clean_dict['sentence_tokenize'] = sentence_tokenize(clean_dict['expand_abbreviations'])
+    temp_sentence = correct_pontuation(clean_dict['expand_abbreviations'])
+    temp_sentence = replace_whitespaces(temp_sentence)
+    clean_dict['sentence_tokenize'] = sentence_tokenize(temp_sentence)
     # If sentence tokenize is empty, return None.
     if not clean_dict['sentence_tokenize']:
         return clean_dict, None
@@ -39,6 +42,9 @@ def clean_text(text, wordtokenize=False):
         clean_dict['remove_stopwords'] = [remove_stopwords(item) for item in clean_dict['lemmatize'] if len(item) > 1]
         # If tokenize, tokenize words.
         if wordtokenize:
-            clean_dict['word_tokenize'] = [word_tokenize(item, 'whitespace') for item in clean_dict['remove_stopwords'] if len(item) > 1]
+            clean_dict['sentence_word_tokenize'] = [word_tokenize(item, 'whitespace') for item in
+                                                    clean_dict['remove_stopwords'] if len(item) > 1]
         # Return dictionary and cleaned text.
-        return clean_dict, clean_dict['word_tokenize']
+        non_tokenized_result = convert_tokens_to_string_of_words(clean_dict['sentence_word_tokenize'])
+        clean_dict['direct_word_tokenize'] = word_tokenize(non_tokenized_result, 'whitespace')
+        return clean_dict, non_tokenized_result
