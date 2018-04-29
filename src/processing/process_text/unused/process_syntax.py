@@ -1,6 +1,6 @@
 from nltk.parse.stanford import StanfordDependencyParser, StanfordParser
-from src.data.paths import get_dictionaty_data_path
 
+from src.data.paths import get_dictionaty_data_path
 
 path_to_jar = get_dictionaty_data_path('stanford-corenlp-3.9.1.jar')
 path_to_models_jar = get_dictionaty_data_path('stanford-corenlp-3.9.1-models.jar')

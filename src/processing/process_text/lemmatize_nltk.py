@@ -1,8 +1,9 @@
-from nltk.stem import PorterStemmer, LancasterStemmer, RegexpStemmer, SnowballStemmer, WordNetLemmatizer
-from src.features.process_text.patterns import get_stemming_pattern
-from nltk import pos_tag, word_tokenize
+from nltk import pos_tag
 from nltk.corpus import wordnet
-from src.features.process_text.tokenization_nltk import is_tokenized, merge_tokens, word_tokenize
+from nltk.stem import PorterStemmer, LancasterStemmer, RegexpStemmer, SnowballStemmer, WordNetLemmatizer
+
+from src.processing.process_text.patterns import get_stemming_pattern
+from src.processing.process_text.tokenization_nltk import is_tokenized, merge_tokens, word_tokenize
 
 _stemming_porter = PorterStemmer().stem
 

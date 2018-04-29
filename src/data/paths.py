@@ -1,11 +1,12 @@
-from os import pardir
-from os.path import dirname, join, exists
 from enum import Enum
+from os import pardir
+from os.path import dirname, join
 
 # Relative path to data folder.
 _SOURCE_DATA_FOLDER_PATH = join(dirname(__file__), pardir, pardir, "data\\sourcedata\\")
 _PROCESSED_DATA_FOLDER_PATH = join(dirname(__file__), pardir, pardir, "data\\processed\\")
 _DICTIONARY_DATA_FOLDER_PATH = join(dirname(__file__), pardir, pardir, "data\\sourcedata\\dictionaries")
+_OUTPUT_DATA_FOLDER_PATH = join(dirname(__file__), pardir, pardir, "data\\output\\")
 
 
 class AmazonCategory(Enum):
@@ -103,6 +104,10 @@ def get_processed_training_data_path(amazoncategory):
 
 def get_processed_test_data_path(amazoncategory):
     return join(_PROCESSED_DATA_FOLDER_PATH, get_processed_test_file_name(amazoncategory))
+
+
+def get_output_path(filename):
+    return join(_OUTPUT_DATA_FOLDER_PATH, filename)
 
 
 def get_dictionaty_data_path(sub_path):

@@ -1,5 +1,5 @@
-from week_5.features.process_text.lemmatization import tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
+from week_5.features.process_text.lemmatization import tokenize
 
 
 def compute_tfidf(dataset):

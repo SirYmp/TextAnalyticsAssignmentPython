@@ -1,9 +1,9 @@
-from nltk import sent_tokenize, word_tokenize, pos_tag, pos_tag_sents
+from nltk import sent_tokenize, word_tokenize, pos_tag
 from nltk.tokenize import PunktSentenceTokenizer, RegexpTokenizer, TreebankWordTokenizer, WordPunctTokenizer, \
     WhitespaceTokenizer
 from nltk.tokenize.moses import MosesDetokenizer
 
-from src.features.process_text.patterns import get_sentence_token_pattern, get_word_token_pattern
+from src.processing.process_text.patterns import get_sentence_token_pattern, get_word_token_pattern
 
 _sentence_tokenizer_default = sent_tokenize
 _sentence_tokenizer_punkt = PunktSentenceTokenizer.tokenize

@@ -1,9 +1,9 @@
-from src.features.process_text.tokenization_nltk import sentence_tokenize, word_tokenize, \
-    convert_tokens_to_string_of_words
-from src.features.process_text.normalize import expand_contractions, remove_special_characters,\
+from src.processing.process_text.lemmatize_nltk import lemmatize_text
+from src.processing.process_text.normalize import expand_contractions, remove_special_characters, \
     remove_stopwords, remove_end_characters, convert_case, remove_hyperlinks, replace_whitespaces, \
     replace_apostrophes, replace_multiple_stopwords, remove_numbers, expand_abbreviations, correct_pontuation
-from src.features.process_text.lemmatize_nltk import lemmatize_text
+from src.processing.process_text.tokenization_nltk import sentence_tokenize, word_tokenize, \
+    convert_tokens_to_string_of_words
 
 
 def clean_text(text, wordtokenize=False):
@@ -48,3 +48,17 @@ def clean_text(text, wordtokenize=False):
         non_tokenized_result = convert_tokens_to_string_of_words(clean_dict['sentence_word_tokenize'])
         clean_dict['direct_word_tokenize'] = word_tokenize(non_tokenized_result, 'whitespace')
         return clean_dict, non_tokenized_result
+
+
+def clean_text_reduced_dictionary(text, wordtokenize=False):
+    clean_dict, non_tokenized_result = clean_text(text, wordtokenize)
+    del clean_dict['replace_whitespaces']
+    del clean_dict['replace_multiple_stopwords']
+    del clean_dict['replace_apostrophes']
+    del clean_dict['expand_contractions']
+    del clean_dict['remove_hyperlinks']
+    del clean_dict['remove_special_characters']
+    del clean_dict['remove_numbers']
+    del clean_dict['convert_case']
+    del clean_dict['expand_abbreviations']
+    return clean_dict, non_tokenized_result

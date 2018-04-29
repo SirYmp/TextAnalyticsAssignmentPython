@@ -4,7 +4,7 @@ from enum import Enum
 
 from tqdm import tqdm
 
-from src.features.process_text.tokenization_nltk import filter_word_by_pos
+from src.processing.process_text.tokenization_nltk import filter_word_by_pos
 
 
 class ListStream:
@@ -160,7 +160,8 @@ def create_review_from_dict(amazoncategory, review_dict):
 
 
 def extract_corpus(reviews, text_element, pos_tag):
-    corpus = set()
+    corpus = list()
+    labels = list()
     for review in tqdm(reviews, desc="building corpus"):
         # We need to check if text elements are empty as per the cleaning process
         if type(review.get_text_element(text_element)) == list:
@@ -168,13 +169,24 @@ def extract_corpus(reviews, text_element, pos_tag):
             return None
         if not review.get_text_element(text_element) is None:
             if pos_tag == '':
-                corpus.add(review.get_text_element(text_element))
+                corpus.append(review.get_text_element(text_element))
+                labels.append(review.category)
             else:
-                corpus.add(filter_word_by_pos(review.get_text_element(text_element), pos_tag, tokenize=False))
-    return corpus
+                temp_corpus = filter_word_by_pos(review.get_text_element(text_element), pos_tag, tokenize=False)
+                if not temp_corpus is None:
+                    corpus.append(temp_corpus)
+                    labels.append(review.category)
+    return corpus, labels
 
 
 def extract_corpus_as_is(reviews, text_element):
-    corpus = [rev.get_text_element(text_element) for rev in tqdm(reviews, desc="building corpus (as is)") if
-              not rev.get_text_element(text_element) is None]
-    return corpus
+    corpus = list()
+    labels = list()
+    for rev in tqdm(reviews, desc="building corpus (as is)"):
+        if not rev.get_text_element(text_element) is None:
+            corpus.append(rev.get_text_element(text_element))
+            labels.append(rev.category)
+
+    # corpus = [rev.get_text_element(text_element) for rev in tqdm(reviews, desc="building corpus (as is)") if
+    # not rev.get_text_element(text_element) is None]
+    return corpus, labels

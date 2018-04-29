@@ -1,10 +1,12 @@
-from src.features.process_text.patterns import get_contraction_dict, get_special_characters_pattern, \
+from re import IGNORECASE, DOTALL, sub, compile
+
+from nltk.corpus import stopwords
+
+from src.processing.process_text.correct_spelling import correct_word
+from src.processing.process_text.patterns import get_contraction_dict, get_special_characters_pattern, \
     get_end_characters_pattern, get_hyperlink_pattern, get_apostrophe_pattern, get_whitespace_pattern, \
     get_number_pattern, get_abbreviation_dict, get_no_space_after_dot_dict
-from src.features.process_text.correct_spelling import correct_word
-from src.features.process_text.tokenization_nltk import is_tokenized, merge_tokens, word_tokenize
-from re import IGNORECASE, DOTALL, sub, compile
-from nltk.corpus import stopwords
+from src.processing.process_text.tokenization_nltk import is_tokenized, merge_tokens, word_tokenize
 
 
 def expand_abbreviations(text):

@@ -1,13 +1,15 @@
 import json
-import os.path
 import mmap
 import ntpath
+import os.path
 import random
-from tqdm import tqdm
 from pickle import dump, load
-from src.review.review import Review
+
+from tqdm import tqdm
+
 from src.data.paths import get_source_data_path, get_processed_data_path, get_converted_data_path, \
     get_processed_test_data_path, get_processed_training_data_path
+from src.review.review import Review
 
 
 def test_json_reading(category):
@@ -21,7 +23,7 @@ def test_json_reading(category):
     jsonfile.close()
 
 
-def create_parsed_pkl_from_Json(category, random_seed, sample_size):
+def create_parsed_pkl_from_Json(category, random_seed, sample_size, category_label_number):
     file_path = get_source_data_path(category)
     review_set = set()
     with open(file_path) as file:
@@ -37,7 +39,7 @@ def create_parsed_pkl_from_Json(category, random_seed, sample_size):
             # if text raw not empty add to set
             if (text_raw != '') and (not text_raw is None):
                 # create Amazon Review object
-                review = Review(category.value, reviewer_id, asin, helpful, text_raw, overall, summary)
+                review = Review(category_label_number, reviewer_id, asin, helpful, text_raw, overall, summary)
                 # add review object to set
                 review_set.add(review)
         file.close()

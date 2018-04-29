@@ -134,16 +134,24 @@ _CONTRACTION_DICT = {
     "you've": "you have"
 }
 
+# Source https://regex101.com/
+
+# Matches
 _SENTENCE_TOKEN_PATTERN = r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<![A-Z]\.)(?<=\.|\?|\!)\s'
 
+#Matches any word character (equal to [a-zA-Z0-9_])
 _WORD_TOKEN_PATTERN = r'\w+'
 
+#Matches the characters ing,s,ed literally (case sensitive)
 _STEMMING_PATTERN = 'ing$|s$|ed$'
 
+#Matches the special characters $, &, *, %, (, ), ~, -, —, ", ', ,, :, ;, “, ” literally
 _SPECIAL_CHARACTERS = ['$', '&', '*', '%', '(', ')', '~', '-', '—', '"', "'", ',', ':', ';', '“', '”']
 
+#Matches the end characters ?, ! literally
 _END_CHARACTERS = ['?', '!']
 
+#Matches https: with double back or front slashes, non followed by a space
 _HYPERLINK_PATTERN = r'https?:\/\/[^\s]+'
 
 _APOSTROPHE_PATTERN = r'’'

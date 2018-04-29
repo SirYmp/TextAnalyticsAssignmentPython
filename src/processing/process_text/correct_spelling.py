@@ -1,6 +1,8 @@
-from re import findall, sub
 from collections import Counter
+from re import findall, sub
+
 import nltk.corpus
+
 
 # Taken from https://norvig.com/spell-correct.html
 
